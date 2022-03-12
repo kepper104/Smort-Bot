@@ -10,8 +10,7 @@ def get_deck_game_status(app_id: int):
         f"https://store.steampowered.com/saleaction/ajaxgetdeckappcompatibilityreport?nAppID={app_id}")
 
     json = request.json()
-    if json['results']:
-
+    try:
         category_raw = json['results']['resolved_category']
         category = CATEGORIES_SUPPORT[category_raw]
         comments = [category]
@@ -19,7 +18,7 @@ def get_deck_game_status(app_id: int):
             comments.append(
                 (CATEGORIES_COMMENTS[i['display_type']], i['loc_token'][30:]))
         return comments
-    else:
+    except:
         return None
     pprint(comments)
 
